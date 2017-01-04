@@ -14,20 +14,14 @@ class Reader
   end
 end
 
-class Formatter
-  def render_output
-    puts "warning: Abstract method called."
-  end
-end
-
-class Document < Formatter
+class Document
   def render_output(title, body, to, from, author)
     puts "Title: #{title}"
     puts "Body: #{body}"
   end
 end
 
-class Letter < Formatter
+class Letter
   def render_output(title, body, to, from, author)
   	puts "To: #{to}"
   	puts "From: #{from}"
@@ -36,7 +30,7 @@ class Letter < Formatter
   end
 end
 
-class Book < Formatter
+class Book
   def render_output(title, body, to, from, author)
     puts "Title: #{title}"
     puts "Author: #{author}"
