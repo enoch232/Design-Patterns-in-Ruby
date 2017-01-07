@@ -49,7 +49,8 @@ class PostList
   	end
     letters = method_name.split('_')
     delete_by = letters[3]
-    send()
+    code = "@posts.delete_if{ |post| post.#{delete_by} == args.first }"
+    eval(code)
   end
 
   def display_posts
@@ -62,5 +63,12 @@ end
 @posts = PostList.new
 @posts.add_post("First Post", "Enoch Ko", "This is the body of first post")
 @posts.add_post("Second Post", "Jaemin Ko", "This is the body of second post")
-@posts.remove_post_by_id(1)
+# @posts.remove_post_by_id(1)
+# @posts.remove_post_by_id(0)
+# @posts.remove_post_by_title("Second Post")
+# @posts.remove_post_by_title("First Post")
+# @posts.remove_post_by_author("Jaemin Ko")
+# @posts.remove_post_by_author("Enoch Ko")
+# @posts.remove_post_by_body("This is the body of second post")
+# @posts.remove_post_by_body("This is the body of first post")
 @posts.display_posts
