@@ -22,19 +22,9 @@ class ItemManagerProxy
   def initialize
   end
 
-  def add_item(item)
-  	s = subject
-  	s.add_item(item)
-  end
-
-  def remove_item(item)
-  	s = subject
-  	s.remove_item(item)
-  end
-
-  def display_items
-  	s = subject
-  	s.display_items
+  def method_missing(method_name, *args)
+    s = subject
+    s.send(method_name, *args)
   end
 
   def subject
