@@ -13,6 +13,7 @@ class AddPostCommand < Command
   end
 
   def execute
+  	
   end
 
   def unexecute
