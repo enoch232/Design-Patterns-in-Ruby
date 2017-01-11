@@ -1,34 +1,60 @@
-class EnhancedWriter
-  attr_reader :check_sum
+class SimpleWriter
   def initialize(path)
-    @file = File.open(path, "w")
-    @check_sum = 0
-    @line_number = 1
+    @file = File.open(path, 'w')
   end
+
   def write_line(line)
     @file.print(line)
     @file.print("\n")
   end
-  def checksumming_write_line(data)
-    # data.each_byte {|byte| @check_sum = (@check_sum + byte) % 256 }
-    data.each_byte { |byte| puts byte}
-    # @check_sum += "\n"[0] % 256
-    # write_line(data)
+
+  def pos
+    @file.pos
   end
-  def timestamping_write_line(data)
-    write_line("#{Time.new}: #{data}")
+
+  def rewind
+    @file.rewind
   end
-  def numbering_write_line(data)
-    write_line("#{@line_number}: #{data}")
-    @line_number += 1
-  end
+
   def close
     @file.close
-  end 
+  end
 end
 
-writer = EnhancedWriter.new("/Users/EnochKo/Desktop/Design Patterns in Ruby/decorator_pattern/test.txt")
-writer.write_line("hello world!")
-writer.numbering_write_line("First")
-writer.numbering_write_line("Second")
-writer.checksumming_write_line('hh')
+
+class WriterDecorator
+  def initialize(real_writer)
+    @real_writer = real_writer
+  end
+                                        
+  def write_line(line)
+    @real_writer.write_line(line)
+  end
+  
+  def pos
+    @real_writer.pos
+  end
+  
+  def rewind
+    @real_writer.rewind
+  end
+  
+  def close
+    @real_writer.close
+  end
+end
+
+class NumberingWriter < WriterDecorator
+  def initialize(real_writer)
+    super(real_writer)
+    @line_number = 1
+  end
+
+  def write_line(line)
+    @real_writer.write_line("#{@line_number}: #{line}")
+    @line_number += 1
+  end
+end
+
+writer = NumberingWriter.new(SimpleWriter.new('final.txt'))
+writer.write_line("Hello out there")
